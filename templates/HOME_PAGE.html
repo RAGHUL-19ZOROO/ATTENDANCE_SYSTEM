@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='/assets/css/bootstrap.css')}}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+</head>
+
+
+<body id="back">
+  <div id=container>
+    <div class="nav_Bar m-2">
+      <nav class="navbar navbar-expand-lg   rounded-5 p-2">
+        <div class="container-fluid ">
+           <a class="navbar-brand text-dark" href="#"><img style="width:40px;"
+                            src="{{url_for('static', filename='images/logo.png')}}"> LEE ATTENDANCE
+                    </a>
+
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse offset-md-4 d-md-flex justify-content-md-end" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active mx-2" aria-current="page" href="#"><button type="button"
+                    class="btn btn-outline-dark">HOME</button></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link  mx-2" href="replogin"><button type="button" class="btn btn-outline-dark">REP_LOGIN</button></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link mx-2" href="#"><button type="button" class="btn btn-outline-dark"> ADMIN_LOGIN
+                  </button></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link mx-2" href="#"><button type="button" class="btn btn-outline-dark"> CONTACT
+                    US</button></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <hr>
+
+
+    </div>
+    <div class="head text-center">
+      <div class="name  p-5" >
+        <h1 style="font-family:serif; color:rgb(22, 22, 22);text-shadow:0 0 rgb(6, 79, 173);">PT LEE CHENGALVARAYA NAICKER COLLEGE OF ENGINEERING AND TECHNOLOGY</h1>
+      </div>
+      <div>
+        <h1 id="sec" class="display-1 text-bold text-dark p-3" > WELCOMES YOU </h1>
+      </div>
+
+    </div>
+  </div>
+ 
+  <div class="honorable">
+
+  </div>
+  <div class="footer">
+
+  </div>
+  
+  <style>
+     
+@import url('https://fonts.googleapis.com/css2?family=Imperial+Script&family=Jersey+15&family=Kablammo&family=Workbench&display=swap');
+  *{
+    box-sizing: border-box;
+  }    
+body{
+     
+      min-height: 100vh;
+      margin: 0%;
+      padding: 0%;
+
+
+    }
+    #back {
+        background: linear-gradient(120deg, rgb(186, 208, 223), rgb(65, 151, 185));
+     
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+
+
+    }
+    
+    .navbar{
+      
+      border-color: azure;
+      box-shadow: 0 0 1vh white
+      ;
+
+    }
+
+    
+    #about{
+      
+      position: absolute;
+      bottom: 10rem;
+      }
+    #sec{
+      
+      font-family:work;
+      color: rgb(22, 22, 22);
+      font-weight: 400;
+      
+      
+    }
+    @media all and (max-width: 768px) {
+      .name h1 {
+        font-size: 30px;
+      }
+      #sec {
+        font-size: 30px;
+      }
+    }
+    @media all and (max-width:400px) {
+      .name h1 {
+        font-size: 15px;
+      }
+      #sec {
+        font-size: 20px;
+      }
+      
+    }
+
+   
+
+  </style>
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

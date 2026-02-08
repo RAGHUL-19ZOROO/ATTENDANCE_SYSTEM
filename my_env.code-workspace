@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"name": "my_env",
+			"path": "../../web/Project/my_env"
+		},
+		{
+			"name": "Project-Attend",
+			"path": "."
+		},
+		{
+			"name": "__pycache__",
+			"path": "../../web/Project/__pycache__"
+		}
+	],
+	"settings": {}
+}
