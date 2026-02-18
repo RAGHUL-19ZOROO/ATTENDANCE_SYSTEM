@@ -1,185 +1,285 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>LEE ATTENDANCE PORTAL </title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo2.png') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    
 
- 
+
+
 
 </head>
+
 <body id="back">
-    <nav class="navbar bg-body-tertiary m-1 rounded-5 p-2 bg-light bg-opacity-25"style="backdrop-filter: blur(3px);background: linear-gradient(-60deg,rgb(186,208,223),rgb(65,151,185));border:linear-gradient(-60deg,pink,blue);border-width: 2vh;">
-  <div class="container-fluid">
-    <div class="container-fluid navbar-expand-lg" >
-          <a class="navbar-brand text-dark " href="#"><img src="static/images/icons8-attendance-96.png">LEE ATTENDANCE 
-          </a>
-  </div>
-</nav>
 
-<div class="container mt-5">
 
-    <div class="time card shadow p-4 rounded-3 m-4 bg-light bg-opacity-25"style="backdrop-filter: blur(3px);">
+    <nav class="navbar navbar-expand-lg rounded-5 m-2 px-4 py-3 shadow" style="background:#53658b;">
 
-        <h3 class="text-center mb-3">Class Attendance List</h3>
+        <div class="container-fluid">
 
-        {% if locked %}
-        <div class="alert alert-success text-center">
-            Attendance already submitted for this date 🔒
-        </div>
-        {% endif %}
+            <!-- LEFT LOGO -->
+            <a class="navbar-brand text-light fw-bold d-flex align-items-center gap-2" href="#">
+                <img src="static/images/icons8-attendance-96.png" width="40">
+                LEE ATTENDANCE
+            </a>
 
-        <form method="POST" action="/save">
-
-            <div class="row mb-3">
-                <div class="col-md-3">
-                   
-                    <input type="date" name="date"
-                           value="{{selected_date}}"
-                           class="form-control" required>
-                </div>
-
-                <div class="col-md-3">
-                    <input type="text" id="searchInput"
-                           class="form-control"
-                           placeholder="Search Student ID...">
-                </div>
-                <div class="col-md-3  ">
-                    <select class="form-select " name="department" required>
-                        <option value="">Select Department</option>
-                        <option value="CSE">CSE</option>
-                        <option value="ECE">ECE</option>
-                        <option value="MECH">MECH</option>
-                        <option value="CIVIL">CIVIL</option>
-                    <option value="AI&DS">AI&DS</option>
-                    </select>
-                </div>                
-
-                <div class="col-md-3">
-                    <!-- disable save if locked -->
-                    <button class="btn btn-primary"
-                            {% if locked %}disabled{% endif %}>
-                        Save Attendance
+            <!-- RIGHT BUTTON -->
+            <div class="ms-auto">
+                <a href="/">
+                    <button class="btn btn-outline-light px-4">
+                        HOME
                     </button>
+                </a>
+            </div>
+
+        </div>
+    </nav>
+
+
+    </nav>
+
+    <div class="container mt-5">
+
+        <div class="time card shadow p-4 rounded-3 m-4  ;">
+
+            <h3 class="text-center text-dark mb-3">Class Attendance List</h3>
+
+            {% if locked %}
+            <div class="alert alert-success text-center">
+                can't edit attendance for {{selected_date}} as it is locked.
+            </div>
+            {% endif %}
+
+            <form method="POST" action="/save">
+                <div class="card shadow-lg border-0 p-4 mb-4 rounded-4 bg-white">
+
+                    <div class="row g-3 align-items-end">
+
+                        <!-- DATE -->
+                        <div class="col-lg-3 col-md-6">
+                            <label class="form-label fw-semibold">Date</label>
+                            <input type="date" name="date" value="{{selected_date}}"
+                                class="form-control form-control-lg" onchange="reloadPage()">
+                        </div>
+                        <input type="hidden" name="period" id="periodHidden" value="{{selected_period}}">
+
+
+                        <!-- PERIOD -->
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label fw-semibold">Period</label>
+                            <select id="periodSelect" class="form-select form-select-lg" onchange="reloadPage()">
+
+                                <option value="p1" {% if selected_period=='p1' %}selected{% endif %}>P1</option>
+                                <option value="p2" {% if selected_period=='p2' %}selected{% endif %}>P2</option>
+                                <option value="p3" {% if selected_period=='p3' %}selected{% endif %}>P3</option>
+                                <option value="p4" {% if selected_period=='p4' %}selected{% endif %}>P4</option>
+                                <option value="p5" {% if selected_period=='p5' %}selected{% endif %}>P5</option>
+                                <option value="p6" {% if selected_period=='p6' %}selected{% endif %}>P6</option>
+                                <option value="p7" {% if selected_period=='p7' %}selected{% endif %}>P7</option>
+                                <option value="p8" {% if selected_period=='p8' %}selected{% endif %}>P8</option>
+
+                            </select>
+                        </div>
+
+                        <!-- SEARCH -->
+                        <div class="col-lg-3 col-md-6">
+                            <label class="form-label fw-semibold">Search Student</label>
+                            <input type="text" id="searchInput" class="form-control form-control-lg"
+                                placeholder="Enter Reg No">
+                        </div>
+
+                        <!-- COPY PREVIOUS -->
+                        <div class="col-lg-2 col-md-6">
+                            <label class="form-label fw-semibold">Quick Action</label>
+
+                            <div class="form-check form-switch mt-2">
+                                <input class="form-check-input" type="checkbox" name="copy_prev" value="1"
+                                    id="copySwitch">
+
+                                <label class="form-check-label fw-semibold">
+                                    same as previous
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- SAVE BUTTON -->
+                        <div class="col-lg-2 col-md-12 d-grid">
+                            <button class="btn btn-primary btn-lg fw-bold" {% if locked %}disabled{% endif %}>
+                                Save
+                            </button>
+                        </div>
+
+                    </div>
                 </div>
-            </div>
 
-            <div class="card shadow p-3 rounded-4">
 
-                <table id="studentTable"
-                       class="table table-bordered  text-center">
+                <div class="card shadow p-3 rounded-4">
 
-                    <thead class="table-primary">
-                        <tr>
-                            <th>Student ID</th>
-                            <th>Student Name</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
+                    <table id="studentTable" class="table table-bordered  text-center">
 
-                    <tbody>
-                    {% for s in students %}
-                        <tr>
-                            <td>{{ s.student_id }}</td>
-                            <td>{{ s.student_name }}</td>
-                            <td>
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Student Name</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
 
-                                <!-- disable dropdown if locked -->
-                                <select name="status_{{s.student_id}}"
-                                        class="form-select"
-                                        {% if locked %}disabled{% endif %}>
+                        <tbody>
+                            {% for s in students %}
+                            <tr>
+                                <td>{{ s.student_id }}</td>
+                                <td>{{ s.student_name }}</td>
+                                <td>
 
-                                    <option value="present">Present</option>
-                                    <option value="absent">Absent</option>
-                                    <option value="excused">Excused</option>
-                                </select>
+                                    <!-- disable dropdown if locked -->
+                                    <select name="status_{{s.student_id}}" class="form-select" {% if locked %}disabled{%
+                                        endif %}>
 
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
+                                        <option value="P" {% if selected_period=='p1' and s.p1=='P' %}selected{% endif
+                                            %} {% if selected_period=='p2' and s.p2=='P' %}selected{% endif %} {% if
+                                            selected_period=='p3' and s.p3=='P' %}selected{% endif %} {% if
+                                            selected_period=='p4' and s.p4=='P' %}selected{% endif %} {% if
+                                            selected_period=='p5' and s.p5=='P' %}selected{% endif %} {% if
+                                            selected_period=='p6' and s.p6=='P' %}selected{% endif %} {% if
+                                            selected_period=='p7' and s.p7=='P' %}selected{% endif %} {% if
+                                            selected_period=='p8' and s.p8=='P' %}selected{% endif %}>Present</option>
 
-                </table>
+                                        <option value="A" {% if selected_period=='p1' and s.p1=='A' %}selected{% endif
+                                            %} {% if selected_period=='p2' and s.p2=='A' %}selected{% endif %} {% if
+                                            selected_period=='p3' and s.p3=='A' %}selected{% endif %} {% if
+                                            selected_period=='p4' and s.p4=='A' %}selected{% endif %} {% if
+                                            selected_period=='p5' and s.p5=='A' %}selected{% endif %} {% if
+                                            selected_period=='p6' and s.p6=='A' %}selected{% endif %} {% if
+                                            selected_period=='p7' and s.p7=='A' %}selected{% endif %} {% if
+                                            selected_period=='p8' and s.p8=='A' %}selected{% endif %}>Absent</option>
 
-            </div>
-        </form>
-    </div>
-</div>
+                                    </select>
 
-<style>
-#back{
-    background: linear-gradient(120deg,rgb(186,208,223),rgb(65,151,185));
-    background-attachment: scroll;
-}
-</style>
 
-<script>
-document.getElementById("searchInput").addEventListener("keyup", function() {
-    let value = this.value.toLowerCase();
-    let rows = document.querySelectorAll("#studentTable tbody tr");
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
 
-    rows.forEach(function(row) {
-        let text = row.innerText.toLowerCase();
-        row.style.display = text.includes(value) ? "" : "none";
-    });
+                    </table>
+
+                </div>
+                <script>
+document.querySelector("form").addEventListener("submit", function(){
+    let p = document.getElementById("periodSelect").value;
+    document.getElementById("periodHidden").value = p;
 });
 </script>
-<style>
-   @media (max-width:700px){
 
-    .container{
-        width:100% !important;
-        padding:10px !important;
-        margin:0 !important;
-    }
+            </form>
+        </div>
+    </div>
 
-    .time{
-        margin:0 !important;
-        padding:15px !important;
-        height: min(40px,100%);
-    }
-
-    h3{
-        font-size:18px;
-    }
-
-    .row.mb-3{
-        display:flex;
-        flex-direction:column;
-        gap:10px;
-    }
-
-    .row.mb-3 .col-md-3{
-        width:100%;
-    }
-
-    button.btn{
-        width:100%;
-    }
-
-    table{
-        font-size:12px;
-    }
-
-    th,td{
-        padding:6px !important;
-    }
-
-    .navbar-brand{
-        font-size:14px;
-    }
-
-    .navbar img{
-        width:28px;
-    }
+    <!-- <style>
+        #back {
+            background: linear-gradient(120deg, rgb(186, 208, 223), rgb(65, 151, 185));
+            background-attachment: scroll;
+        }
+    </style> -->
+    <script>
+       function reloadPage() {
+    let d = document.querySelector("input[name='date']").value;
+    let p = document.getElementById("periodSelect").value;
+    window.location = "/dash?date=" + d + "&period=" + p;
 }
 
-        
-    
-</style>
+    </script>
+
+
+    <script>
+        document.getElementById("searchInput").addEventListener("keyup", function () {
+            let value = this.value.toLowerCase();
+            let rows = document.querySelectorAll("#studentTable tbody tr");
+
+            rows.forEach(function (row) {
+                let text = row.innerText.toLowerCase();
+                row.style.display = text.includes(value) ? "" : "none";
+            });
+        });
+    </script>
+    <style>
+        @media (max-width:700px) {
+
+            .container {
+                width: 100% !important;
+                padding: 10px !important;
+                margin: 0 !important;
+            }
+
+            .time {
+                margin: 0 !important;
+                padding: 15px !important;
+                height: min(40px, 100%);
+            }
+
+            h3 {
+                font-size: 18px;
+            }
+
+            .row.mb-3 {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .row.mb-3 .col-md-3 {
+                width: 100%;
+            }
+
+            button.btn {
+                width: 100%;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th,
+            td {
+                padding: 6px !important;
+            }
+
+            .navbar-brand {
+                font-size: 14px;
+            }
+
+            .navbar img {
+                width: 28px;
+            }
+        }
+
+
+
+
+        .btn-primary {
+            background: #2563eb;
+            border: none;
+        }
+
+        body {
+            background: #0f172a;
+            color: #e5e7eb;
+        }
+
+
+        .navbar {
+            background-color: whitesmoke;
+
+            backdrop-filter: blur(10px);
+            opacity: 0.6;
+        }
+    </style>
 
 </body>
+
 </html>

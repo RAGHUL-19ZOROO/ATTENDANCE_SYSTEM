@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEE ATTENDANCE PORTAL </title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo2.png') }}">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      
+
+        .card-box {
+            border-radius: 12px;
+            color: white;
+            padding: 20px;
+        }
+
+        .navbar {
+
+            border-color: azure;
+            box-shadow: 0 0 1vh white;
+           
+
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+
+
+
+
+    <nav class="navbar navbar-dark  p-3 m-3 rounded-5">
+        <span class="navbar-brand">HOD Dashboard</span>
+        <a href="/" class="btn btn-outline-light btn-lg">Logout</a>
+    </nav>
+
+    <div class="container mt-4">
+
+        <div class="row g-3">
+
+            <div class="col-md-3">
+                <div class="card-box total text-center">
+                    <h5>Total Students</h5>
+                    <h2>{{ total }}</h2>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card-box present text-center">
+                    <h5>Present {{period}}</h5>
+                    <h2>{{present}}</h2>
+
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card-box absent text-center">
+                 <h5>Absent {{period}}</h5>
+                <h2>{{absent}}</h2>
+
+                </div>
+            </div>
+
+            <!-- <div class="col-md-3">
+                <div class="card-box attendance text-center">
+                    <h5>Avg Attendance</h5>
+                    <h2>{{ percent }}%</h2>
+                </div>
+            </div> -->
+
+        </div>
+      
+
+
+        <div class="card mt-4 shadow">
+            <div class="card-header bg-dark rounded-3 text-white">
+                Today's Absentees
+            </div>
+
+            <div class="card-body bg-light bg-opacity-25 rounded-3">
+
+                {% if absentees %}
+                <ul class="list-group">
+                    {% for s in absentees %}
+                    <li class="list-group-item d-flex justify-content-between">
+                        {{ s.student_name }}
+                        <span class="badge bg-danger">Absent</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="text-success">No absentees today 🎉</p>
+                {% endif %}
+
+            </div>
+        </div>
+
+        <div class="row mt-4 g-3">
+
+            <div class="col-md-3">
+                <a href="/fetch" class="btn btn-primary w-100">View Students</a>
+            </div>
+
+            <!-- <div class="col-md-3">
+        <a href="/hod/defaulters" class="btn btn-warning w-100">Defaulters</a>
+    </div>
+
+    <div class="col-md-3">
+        <a href="/hod/report" class="btn btn-success w-100">Download Report</a>
+    </div>
+
+    <div class="col-md-3">
+        <a href="/hod/faculty" class="btn btn-dark w-100">Faculty List</a>
+    </div> -->
+   
+
+        </div>
+
+    </div>
+    <style>
+        .total {
+            background-color: #dadee296;
+            backdrop-filter: blur(20px);
+            color: black;
+            box-shadow: 0 0 10px #0000001a;
+        }
+
+        .present {
+            background-color: #dadee296;
+            backdrop-filter: blur(20px);
+            color: black;
+            box-shadow: 0 0 10px #0000001a;
+        }
+
+        .absent {
+            background-color: #dadee296;
+            backdrop-filter: blur(20px);
+            color: black;
+            box-shadow: 0 0 10px #0000001a;
+        }
+
+        .attendance {
+            background-color: #e2dadc96;
+            backdrop-filter: blur(20px);
+            color: black;
+            box-shadow: 0 0 10px #0000001a;
+        }
+            body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+body {
+            background: #0f172a;
+            color: #e5e7eb;
+        }
+    </style>
+
+
+
+</body>
+
+</html>
