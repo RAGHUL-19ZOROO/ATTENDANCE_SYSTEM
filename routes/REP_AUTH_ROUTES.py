@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, request
+from flask import Blueprint, redirect, render_template, request, session
 from db import get_db_connection
 
 REP_auth = Blueprint("REP_auth", __name__)
@@ -10,7 +10,6 @@ def Rep_login():
     if request.method == "GET":
         return render_template("REP_LOGIN.html")
 
-   
     username = request.form.get("username")
     password = request.form.get("password")
 
@@ -25,11 +24,14 @@ def Rep_login():
     db.close()
 
     if admin:
-        msg="Login successful!"
+        # 🔐 dept only from DB
+        session["dept"] = admin["department"]
+        session["year"] = "2"
+
+        print("Logged dept:", admin["department"])
+
         return redirect("/dash")
+
     else:
-        msg="Invalid credentials. Please try again."
+        msg="Invalid credentials"
         return render_template("REP_LOGIN.html", msg=msg)
-
-
-   

@@ -9,6 +9,7 @@ from io import BytesIO
 export_bp = Blueprint("export_bp", __name__)
 
 
+
 def get_last_period(rows):
     order = ["p8","p7","p6","p5","p4","p3","p2","p1"]
     for p in order:

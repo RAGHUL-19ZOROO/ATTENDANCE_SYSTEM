@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rep Login</title>
+    <title>HOD Login</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -16,17 +16,22 @@
 
         body {
             min-height: 100vh;
+
             background: radial-gradient(circle at top, #5f046b, #480bb9);
             color: #e5e7eb;
             font-family: "Inter", sans-serif;
-            background-size: cover;
+          
+             background-attachment: fixed;
+            background-repeat: no-repeat;
+
+
+
+            color: white;
 
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
         }
 
         /* glass card */
@@ -83,10 +88,7 @@
         .brand {
             font-weight: 700;
             font-size: 18px;
-            font-family: cursive
         }
-
-
 
         @media(max-width:600px) {
             .login-card {
@@ -105,27 +107,29 @@
 
     <div class="login-card">
 
-        <div class="title">CLASS REP LOGIN</div>
+        <div class="title">FACULTY LOGIN</div>
 
-        <form method="POST" action="{{ url_for('REP_auth.Rep_login') }}">
+        <form method="POST" action="">
 
-    <div class="mb-3">
-        <label>USER NAME</label>
-        <input class="form-control" name="username">
-    </div>
+            <div class="mb-3">
+                <label class="form-label">USER NAME</label>
+                <input class="form-control" name="username" placeholder="user_name">
+            </div>
 
-    <div class="mb-4">
-        <label>Password</label>
-        <input type="password" name="password" class="form-control">
-    </div>
+            <div class="mb-4">
+                <label class="form-label">Password</label>
+                <input type="password" name="password" class="form-control">
+            </div>
 
-    <button class="btn btn-primary btn-main">LOGIN</button>
+            <button type="submit" class="btn btn-primary btn-main">
+                LOGIN
+            </button>
 
-    {% if msg %}
-    <div class="text-danger text-center mt-3">{{msg}}</div>
-    {% endif %}
+            {% if msg %}
+            <div class="text-danger text-center mt-3">{{msg}}</div>
+            {% endif %}
 
-</form>
+        </form>
 
     </div>
 

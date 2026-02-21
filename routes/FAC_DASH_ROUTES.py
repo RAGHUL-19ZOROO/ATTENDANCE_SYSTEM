@@ -1,10 +1,9 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
 from db import get_db_connection
 from datetime import date
 
 admin_dash = Blueprint("admin_dash", __name__)
 
-@admin_dash.route("/admin_dashboard")
 @admin_dash.route("/admin_dashboard")
 def admin_dashboard():
 
@@ -13,10 +12,19 @@ def admin_dashboard():
 
     today = str(date.today())
 
+    dept = request.args.get("dept")
 
-    cursor.execute("""
+    if dept:
+        dept_filter = "WHERE students.department=%s"
+        params = (today, dept)
+    else:
+        dept_filter = ""
+        params = (today,)
+
+    query = f"""
     SELECT students.student_id,
            students.student_name,
+           students.department,
            attendance.p1,
            attendance.p2,
            attendance.p3,
@@ -29,12 +37,13 @@ def admin_dashboard():
     LEFT JOIN attendance
     ON students.student_id = attendance.student_id
     AND attendance.date=%s
-    """,(today,))
+    {dept_filter}
+    """
 
+    cursor.execute(query, params)
     data = cursor.fetchall()
 
     total_students = len(data)
-
 
     period_order = ["p8","p7","p6","p5","p4","p3","p2","p1"]
     latest_period = None
@@ -57,12 +66,9 @@ def admin_dashboard():
             elif row[latest_period] == "A":
                 absent += 1
 
+    overall_percent = round((present / total_students) * 100, 2) if total_students > 0 else 0
 
-    absentees = []
-    if latest_period:
-        for row in data:
-            if row[latest_period] == "A":
-                absentees.append(row)
+    absentees = [row for row in data if latest_period and row[latest_period] == "A"]
 
     return render_template(
         "ADMIN_DASHBOARD.html",
@@ -71,6 +77,6 @@ def admin_dashboard():
         absent=absent,
         period=latest_period if latest_period else "No hour yet",
         absentees=absentees,
-        today=today
+        overall_percent=overall_percent,
+        selected_dept=dept
     )
-

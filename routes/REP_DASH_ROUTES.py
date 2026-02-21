@@ -1,12 +1,15 @@
-from flask import Blueprint, render_template, request, redirect
+from flask import Blueprint, render_template, request, redirect, session
 from db import get_db_connection
 from datetime import date, timedelta
 
 rep_dash_bp = Blueprint("rep_dash", __name__)
 
-
 @rep_dash_bp.route("/dash")
 def dashboard():
+
+    if "dept" not in session:
+        return redirect("/REP")
+
     db = get_db_connection()
     cursor = db.cursor(dictionary=True)
 
@@ -16,11 +19,14 @@ def dashboard():
     if not selected_period:
         selected_period = "p1"
 
-
     if not selected_date:
         selected_date = str(date.today())
 
-   
+    dept = session.get("dept")
+    year = session.get("year")
+
+    print("SESSION:", dept, year)
+
     query = """
     SELECT students.student_id,
            students.student_name,
@@ -36,12 +42,13 @@ def dashboard():
     LEFT JOIN attendance
     ON students.student_id = attendance.student_id
     AND attendance.date=%s
+    WHERE students.department=%s
+    AND students.year=%s
     """
 
-    cursor.execute(query, (selected_date,))
+    cursor.execute(query, (selected_date, dept, year))
     students = cursor.fetchall()
 
- 
     today = date.today()
     yesterday = today - timedelta(days=1)
     selected_date_obj = date.fromisoformat(selected_date)
@@ -50,56 +57,45 @@ def dashboard():
     locked = not editable
 
     return render_template(
-    "dashboard.html",
-    students=students,
-    selected_date=selected_date,
-    selected_period=selected_period,
-    locked=locked
-)
-
-
+        "dashboard.html",
+        students=students,
+        selected_date=selected_date,
+        selected_period=selected_period,
+        locked=locked
+    )
+    
 @rep_dash_bp.route("/save", methods=["POST"])
 def save():
+
+    if "dept" not in session:
+        return redirect("/REP")
+
+    dept = session.get("dept")
+    year = session.get("year")
 
     db = get_db_connection()
     cursor = db.cursor()
 
     selected_date = request.form.get("date")
     period = request.form.get("period")
-    copy_prev = request.form.get("copy_prev")
 
     if not period:
         return redirect("/dash?date=" + selected_date)
-
-    today = date.today()
-    yesterday = today - timedelta(days=1)
-    selected_date_obj = date.fromisoformat(selected_date)
-
-    if selected_date_obj not in [today, yesterday]:
-        return redirect("/dash?date=" + selected_date + "&period=" + period)
-
-    if copy_prev == "1":
-        prev_map = {
-            "p2":"p1","p3":"p2","p4":"p3",
-            "p5":"p4","p6":"p5","p7":"p6","p8":"p7"
-        }
-
-        if period in prev_map:
-            prev_col = prev_map[period]
-            cursor.execute(f"""
-                UPDATE attendance
-                SET {period} = {prev_col}
-                WHERE date=%s
-            """,(selected_date,))
-            db.commit()
-
-        return redirect(f"/dash?date={selected_date}&period={period}")
-
 
     for key in request.form:
         if key.startswith("status_"):
             student_id = key.split("_")[1]
             status = request.form[key]
+
+            # 🔒 allow only this dept
+            cursor.execute("""
+                SELECT student_id FROM students
+                WHERE student_id=%s AND department=%s AND year=%s
+            """, (student_id, dept, year))
+
+            valid = cursor.fetchone()
+            if not valid:
+                continue
 
             cursor.execute("""
                 SELECT id FROM attendance
@@ -122,5 +118,3 @@ def save():
 
     db.commit()
     return redirect(f"/dash?date={selected_date}&period={period}")
-
-
