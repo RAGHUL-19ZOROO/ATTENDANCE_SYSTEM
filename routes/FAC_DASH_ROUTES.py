@@ -13,9 +13,7 @@ def admin_dashboard():
 
     today = str(date.today())
 
-    # ===============================
-    # GET STUDENTS + TODAY ATTENDANCE
-    # ===============================
+
     cursor.execute("""
     SELECT students.student_id,
            students.student_name,
@@ -37,9 +35,7 @@ def admin_dashboard():
 
     total_students = len(data)
 
-    # ===============================
-    # FIND LATEST FILLED PERIOD
-    # ===============================
+
     period_order = ["p8","p7","p6","p5","p4","p3","p2","p1"]
     latest_period = None
 
@@ -61,9 +57,7 @@ def admin_dashboard():
             elif row[latest_period] == "A":
                 absent += 1
 
-    # ===============================
-    # ABSENT LIST
-    # ===============================
+
     absentees = []
     if latest_period:
         for row in data:

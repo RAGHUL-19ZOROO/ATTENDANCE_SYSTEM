@@ -9,7 +9,7 @@ FAC_auth = Blueprint("FAC_auth", __name__)
 def Fac_login():
 
     if request.method == "GET":
-        return render_template("FAC_LOGIN.html")
+        return render_template("ADMIN_LOGIN.html")
 
     username = request.form.get("username")
     password = request.form.get("password")

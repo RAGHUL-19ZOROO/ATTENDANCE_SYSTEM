@@ -8,8 +8,7 @@ from io import BytesIO
 
 export_bp = Blueprint("export_bp", __name__)
 
-# HELPER: get latest filled period
-# =========================================
+
 def get_last_period(rows):
     order = ["p8","p7","p6","p5","p4","p3","p2","p1"]
     for p in order:
@@ -20,9 +19,6 @@ def get_last_period(rows):
     
 
 
-# =========================================
-# 1️⃣ SINGLE DAY FULL 8 HOURS
-# =========================================
 
 
 @export_bp.route("/export/day")
@@ -71,9 +67,6 @@ def export_day():
 
 
 
-# =========================================
-# 2️⃣ SINGLE DAY LAST HOUR ONLY
-# =========================================
 @export_bp.route("/export/last")
 def export_last():
     selected_date = request.args.get("date")
@@ -123,9 +116,7 @@ def export_last():
         as_attachment=True)
 
 
-# =========================================
-# 3️⃣ WEEKLY EXPORT
-# =========================================
+
 @export_bp.route("/export/week")
 def export_week():
 
@@ -166,13 +157,11 @@ def export_week():
         as_attachment=True)
 
 
-# =========================================
-# 4️⃣ MONTHLY EXPORT
-# =========================================
+
 @export_bp.route("/export/month")
 def export_month():
 
-    month = request.args.get("month")  # 2026-02
+    month = request.args.get("month") 
 
     db = get_db_connection()
     cursor = db.cursor(dictionary=True)

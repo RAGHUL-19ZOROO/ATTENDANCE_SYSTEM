@@ -1,20 +1,117 @@
-body{
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+/* ===== ROOT COLORS ===== */
+:root{
+    --bg:#020617;
+    --card:#0f172a;
+    --glass:rgba(255,255,255,0.05);
+    --primary:#3b82f6;
+    --accent:#22c55e;
+    --danger:#ef4444;
 }
-#stinfo{
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    
-}
-table{
-    display: flex;
-    justify-content: center;
-}
-th,tr,td{
-    padding:10px;
-    display: flex;
-    justify-content: center;
-    border: 2px solid black;
 
+/* ===== BODY ===== */
+body{
+    background: radial-gradient(circle at top,#070707,#000000);
+    color:#e5e7eb;
+    font-family: "Inter", sans-serif;
+}
+
+/* ===== NAVBAR ===== */
+.navbar{
+    background: rgba(2,6,23,0.8) !important;
+    backdrop-filter: blur(16px);
+    border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+/* ===== GLASS CARDS ===== */
+.glass{
+    background: var(--glass);
+    backdrop-filter: blur(16px);
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,0.08);
+    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+}
+
+/* ===== DASH CARDS ===== */
+.stat-card{
+    padding:25px;
+    text-align:center;
+    border-radius:18px;
+    background:linear-gradient(145deg,#020617,#0f172a);
+    box-shadow:0 8px 25px rgba(0,0,0,0.5);
+}
+
+.stat-card h2{
+    font-size:32px;
+    font-weight:700;
+}
+
+/* ===== BUTTONS ===== */
+.btn{
+    border-radius:12px;
+    font-weight:600;
+    padding:10px 18px;
+}
+
+.btn-primary{
+    background:var(--primary);
+    border:none;
+}
+
+.btn-success{
+    background:var(--accent);
+    border:none;
+}
+
+.btn-warning{
+    background:#f59e0b;
+    border:none;
+}
+
+/* ===== TABLE ===== */
+.table{
+    border-radius:14px;
+    overflow:hidden;
+}
+
+thead{
+    background:#020617;
+    color:#60a5fa;
+}
+
+tbody tr{
+    transition:0.2s;
+}
+tbody tr:hover{
+    background:rgba(255,255,255,0.05);
+}
+
+/* ===== MOBILE ===== */
+@media (max-width:768px){
+
+    .stat-card{
+        margin-bottom:12px;
+    }
+
+    .table-wrapper{
+        overflow-x:auto;
+    }
+
+    table{
+        min-width:900px;
+    }
+
+    .btn{
+        width:100%;
+        margin-bottom:8px;
+    }
+}
+.floating{
+position:fixed;
+right:20px;
+bottom:20px;
+width:70px;
+height:70px;
+background:#22c55e;
+border-radius:50%;
+box-shadow:0 0 30px #22c55e;
 }

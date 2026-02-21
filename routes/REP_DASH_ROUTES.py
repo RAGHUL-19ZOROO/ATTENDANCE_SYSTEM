@@ -4,9 +4,7 @@ from datetime import date, timedelta
 
 rep_dash_bp = Blueprint("rep_dash", __name__)
 
-# ===============================
-# DASHBOARD
-# ===============================
+
 @rep_dash_bp.route("/dash")
 def dashboard():
     db = get_db_connection()
@@ -22,7 +20,7 @@ def dashboard():
     if not selected_date:
         selected_date = str(date.today())
 
-    # join students + attendance row
+   
     query = """
     SELECT students.student_id,
            students.student_name,
@@ -43,7 +41,7 @@ def dashboard():
     cursor.execute(query, (selected_date,))
     students = cursor.fetchall()
 
-    # 🔒 lock logic
+ 
     today = date.today()
     yesterday = today - timedelta(days=1)
     selected_date_obj = date.fromisoformat(selected_date)
@@ -60,10 +58,6 @@ def dashboard():
 )
 
 
-
-# ===============================
-# SAVE
-# ===============================
 @rep_dash_bp.route("/save", methods=["POST"])
 def save():
 
@@ -84,7 +78,6 @@ def save():
     if selected_date_obj not in [today, yesterday]:
         return redirect("/dash?date=" + selected_date + "&period=" + period)
 
-    # COPY PREVIOUS
     if copy_prev == "1":
         prev_map = {
             "p2":"p1","p3":"p2","p4":"p3",
@@ -102,7 +95,7 @@ def save():
 
         return redirect(f"/dash?date={selected_date}&period={period}")
 
-    # NORMAL SAVE
+
     for key in request.form:
         if key.startswith("status_"):
             student_id = key.split("_")[1]

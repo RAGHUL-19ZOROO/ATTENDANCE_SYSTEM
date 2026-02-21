@@ -15,7 +15,7 @@ def view_students():
         selected_date = request.form.get("date")
         selected_hour = request.form.get("hour")
 
-        db = get_db_connection()
+        db =      get_db_connection()
         cursor = db.cursor(dictionary=True)
 
         query = """
@@ -34,7 +34,6 @@ def view_students():
 
         total_students = len(students)
 
-        # ===== FULL DAY % =====
         if not selected_hour:
             total_present = 0
             for s in students:
@@ -47,7 +46,7 @@ def view_students():
             total_possible = total_students * 8
             percent = round((total_present/total_possible)*100) if total_possible else 0
 
-        # ===== SINGLE HOUR % =====
+     
         else:
             present = 0
             for s in students:
@@ -61,5 +60,6 @@ def view_students():
         students=students,
         selected_date=selected_date,
         selected_hour=selected_hour,
-        percent=percent
+        percent=percent,
+        selected_period=selected_hour
     )
