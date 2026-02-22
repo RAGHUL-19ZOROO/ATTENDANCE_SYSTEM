@@ -131,7 +131,8 @@
 
         <a href="/admin_dashboard">Dashboard</a>
         <a href="/fetch">View Students</a>
-        <a href="/logout" class="text-danger">Logout</a>
+        <a href="/student_percentage">Student Percentage</a>
+        <a href="/" class="text-danger">Logout</a>
     </div>
 
     <div class="main">
@@ -139,6 +140,26 @@
         <button class="menu-btn d-lg-none" onclick="toggleSidebar()">☰</button>
 
         <h3 class="mb-4">HOD Dashboard</h3>
+        <form method="GET" class="mb-4 d-flex gap-3">
+
+
+    <select name="year" class="form-select w-25">
+        <option value="">All Years</option>
+        <option value="1" {% if selected_year=='1' %}selected{% endif %}>I</option>
+        <option value="2" {% if selected_year=='2' %}selected{% endif %}>II</option>
+        <option value="3" {% if selected_year=='3' %}selected{% endif %}>III</option>
+        <option value="4" {% if selected_year=='4' %}selected{% endif %}>IV</option>
+    </select>
+
+
+
+    
+          
+            <button class="btn btn-light btn-sm">Filter</button>
+        
+
+    <button class="btn btn-light btn-sm">Apply</button>
+</form>
 
         <div class="row g-4">
 
@@ -164,19 +185,11 @@
             </div>
 
         </div>
-        <form method="GET" class="mb-4">
-            <select name="dept" class="form-select w-25 d-inline">
-                <option value="">All Departments</option>
-                <option value="AI&DS">AI&DS</option>
-                <option value="CSE">CSE</option>
-                <option value="IT">IT</option>
-            </select>
-            <button class="btn btn-light btn-sm">Filter</button>
-        </form>
-       <div class="stat-card mt-4">
+        
+       <!-- <div class="stat-card mt-4">
     <h5>Attendance Analytics</h5>
     <div id="chart" style="height:400px;"></div>
-</div>
+</div> -->
 
         <!-- CHART -->
         <!-- <div class="stat-card mt-4">
@@ -210,6 +223,11 @@
             document.querySelector(".sidebar").classList.toggle("active");
         }
     </script>
+    <script>
+document.querySelector("select[name=year]").addEventListener("change", function(){
+    this.form.submit();
+});
+</script>
    
 
 </body>

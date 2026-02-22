@@ -5,13 +5,11 @@ from routes.FAC_AUTH_ROUTES import FAC_auth
 from routes.FAC_DASH_ROUTES import admin_dash
 from routes.fetch_stud_auth import fetch_bp
 from routes.EXPORT_ROUTES import export_bp
-import os
-import pymysql
-pymysql.install_as_MySQLdb()
+from routes.fetch_stud_auth import fetch_bp
+from routes.EXPORT_ROUTES import export_bp
+from routes.STAFF_AUTH_ROUTES import staff_auth
 
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-
+from routes.staff_dashboard import staff_dash
 
 
 
@@ -21,10 +19,10 @@ from flask_sqlalchemy import SQLAlchemy
 
 app=Flask(__name__)
 app.secret_key = "attendance_secret_key"
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-db = SQLAlchemy(app)
+
+app.register_blueprint(staff_auth)
+app.register_blueprint(staff_dash)
 
 app.register_blueprint(REP_auth)
 app.register_blueprint(rep_dash_bp)
@@ -33,7 +31,10 @@ app.register_blueprint(FAC_auth)
 app.register_blueprint(admin_dash)
 app.register_blueprint(fetch_bp)
 
+
 app.register_blueprint(export_bp)
+
+
     
 @app.route("/")
 def index():
@@ -65,8 +66,6 @@ def staff_dashboard():
 if __name__ == '__main__':
     
     app.run(debug=True, host='0.0.0.0', port=5000)  
-
-
     
     
     

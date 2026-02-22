@@ -1,5 +1,6 @@
-from flask import Blueprint, redirect, render_template, request
+from flask import Blueprint, redirect, render_template, request, session
 from db import get_db_connection
+
 
 FAC_auth = Blueprint("FAC_auth", __name__)
 
@@ -27,6 +28,7 @@ def Fac_login():
     db.close()
 
     if admin:
+        session["hod_dept"] = admin["department"]
         return redirect("/admin_dashboard")
     else:
         msg = "Invalid credentials"
